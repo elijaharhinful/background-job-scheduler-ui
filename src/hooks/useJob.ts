@@ -17,11 +17,22 @@ export function useJob(id: string | undefined) {
     try {
       const [jobRes, workflowRes] = await Promise.all([
         apiClient.get<Job>(Endpoints.JOB(id)),
-        apiClient.get<WorkflowNode[]>(Endpoints.JOB_WORKFLOW(id)).catch(() => ({ data: [] as WorkflowNode[] })),
+        apiClient.get<any>(Endpoints.JOB_WORKFLOW(id)).catch(() => ({ data: { nodes: [], edges: [] } })),
       ]);
       setJob(jobRes.data);
-      // Ensure the return data is correctly structured workflow array or empty
-      setWorkflow(Array.isArray(workflowRes?.data) ? workflowRes.data : []);
+      
+      const backendData = workflowRes.data;
+      if (backendData && Array.isArray(backendData.nodes) && Array.isArray(backendData.edges)) {
+        const mappedNodes: WorkflowNode[] = backendData.nodes.map((n: any) => ({
+          id: n.id,
+          type: n.type,
+          status: n.status,
+          dependsOn: backendData.edges.filter((e: any) => e.target === n.id).map((e: any) => e.source)
+        }));
+        setWorkflow(mappedNodes);
+      } else {
+        setWorkflow([]);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load job');
     } finally {
@@ -31,7 +42,7 @@ export function useJob(id: string | undefined) {
 
   const cancelJob = async () => {
     if (!id) return;
-    await apiClient.patch(Endpoints.JOB_CANCEL(id));
+    await apiClient.post(Endpoints.JOB_CANCEL(id));
     await fetchJob();
   };
 

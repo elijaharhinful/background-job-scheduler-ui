@@ -26,7 +26,7 @@ export function useBenchmark() {
     setRunning(true);
     setError(null);
     try {
-      const res = await apiClient.post<BenchmarkResult>(Endpoints.BENCHMARK_RUN, { n });
+      const res = await apiClient.post<BenchmarkResult>(Endpoints.BENCHMARK_RUN, { count: Number(n) });
       setResult(res.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to run benchmark');

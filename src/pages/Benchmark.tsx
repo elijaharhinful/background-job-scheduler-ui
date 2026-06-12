@@ -2,12 +2,12 @@ import { useBenchmark } from '@/hooks/useBenchmark';
 import { useState } from 'react';
 
 export function Benchmark() {
-  const { result, loading, running, runBenchmark } = useBenchmark();
+  const { result, loading, running, error, runBenchmark } = useBenchmark();
   const [jobCount, setJobCount] = useState('10000');
 
   const handleRun = () => {
     const num = parseInt(jobCount, 10);
-    if (!isNaN(num) && num > 0) {
+    if (!isNaN(num)) {
       runBenchmark(num);
     }
   };
@@ -20,6 +20,13 @@ export function Benchmark() {
         <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
           Compare the performance of the Min-Heap vs. Timing-Wheel algorithms for scheduling N jobs.
         </p>
+        
+        {error && (
+          <div style={{ color: 'var(--status-failed)', marginBottom: '16px', padding: '12px', background: 'rgba(239, 68, 68, 0.1)', borderRadius: 'var(--radius-sm)' }}>
+            <strong>Error:</strong> {error}
+          </div>
+        )}
+
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <input 
             type="number" 
