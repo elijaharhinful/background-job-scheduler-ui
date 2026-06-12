@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { apiClient } from '@/api/client';
+import { apiClient, ApiError } from '@/api/client';
 import { Endpoints }  from '@/constants/api.constants';
 import type { BenchmarkResult } from '@/types/benchmark.types';
 
@@ -16,7 +16,11 @@ export function useBenchmark() {
       const res = await apiClient.get<BenchmarkResult>(Endpoints.BENCHMARK_RESULTS);
       setResult(res.data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load benchmark results');
+      if (err instanceof ApiError && err.statusCode === 404) {
+        // Expected when no benchmark has been run yet
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to load benchmark results');
+      }
     } finally {
       setLoading(false);
     }
