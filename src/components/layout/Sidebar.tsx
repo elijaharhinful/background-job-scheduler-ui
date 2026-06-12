@@ -13,28 +13,22 @@ export function Sidebar() {
   ];
 
   return (
-    <aside style={{ width: '240px', borderRight: '1px solid var(--bg-border)', backgroundColor: 'var(--bg-elevated)', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ padding: '24px', fontSize: '18px', fontWeight: 600, color: 'var(--accent-primary-h)' }}>
+    <aside className="sidebar">
+      <div className="sidebar-header">
         Job Scheduler
       </div>
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 16px' }}>
+      <nav className="sidebar-nav">
         {links.map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
             className={({ isActive }) => cn(
-              'flex items-center gap-3 px-4 py-2 rounded-md transition-colors',
-              isActive ? 'bg-accent-glow text-accent-primary-h' : 'text-text-secondary hover:bg-glass-bg hover:text-text-primary'
+              'sidebar-link',
+              isActive ? 'active' : ''
             )}
-            style={({ isActive }) => ({
-              display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: 'var(--radius-sm)',
-              backgroundColor: isActive ? 'var(--accent-glow)' : 'transparent',
-              color: isActive ? 'var(--accent-primary-h)' : 'var(--text-secondary)',
-              textDecoration: 'none'
-            })}
           >
             <link.icon size={18} />
-            {link.label}
+            <span className="sidebar-link-label">{link.label}</span>
           </NavLink>
         ))}
       </nav>

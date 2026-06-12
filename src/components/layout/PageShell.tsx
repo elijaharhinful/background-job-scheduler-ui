@@ -4,11 +4,11 @@ import { TopBar } from './TopBar';
 
 export function PageShell() {
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+    <div className="page-shell">
       <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className="page-content">
         <TopBar />
-        <main style={{ flex: 1, overflowY: 'auto', padding: '32px' }}>
+        <main className="page-main">
           <Outlet />
         </main>
       </div>

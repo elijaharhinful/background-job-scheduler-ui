@@ -109,3 +109,136 @@ th {
 tbody tr:hover {
   background: rgba(255, 255, 255, 0.02);
 }
+
+/* Layout Shell */
+.page-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.page-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  border-right: 1px solid var(--bg-border);
+  background-color: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent-primary-h);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px;
+  margin-bottom: 24px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: var(--glass-bg);
+  color: var(--text-primary);
+}
+
+.sidebar-link.active {
+  background-color: var(--accent-glow);
+  color: var(--accent-primary-h);
+}
+
+/* TopBar */
+.topbar {
+  height: 64px;
+  border-bottom: 1px solid var(--bg-border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
+  background-color: var(--bg-elevated);
+  flex-shrink: 0;
+}
+
+.topbar-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-text {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .page-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: column;
+    border-right: none;
+    border-bottom: 1px solid var(--bg-border);
+  }
+
+  .sidebar-header {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0 16px 16px 16px;
+    margin-bottom: 0;
+    gap: 8px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .sidebar-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-link {
+    padding: 8px 16px;
+    white-space: nowrap;
+  }
+
+  .page-main {
+    padding: 16px;
+  }
+}
