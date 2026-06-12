@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useJob } from '@/hooks/useJob';
+import { useSSE } from '@/hooks/useSSE';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { PriorityBadge } from '@/components/ui/PriorityBadge';
 import { WorkflowGraph } from '@/components/workflow/WorkflowGraph';
@@ -7,7 +8,15 @@ import { WorkflowGraph } from '@/components/workflow/WorkflowGraph';
 export function JobDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { job, workflow, loading, cancelJob } = useJob(id);
+  const { job, workflow, loading, cancelJob, refetch } = useJob(id);
+
+  useSSE({
+    'job_update': (payload) => {
+      if (payload.id === id) {
+        refetch();
+      }
+    }
+  });
 
   if (loading && !job) return <div style={{ padding: 24 }}>Loading...</div>;
   if (!job) return <div style={{ padding: 24 }}>Job not found</div>;
@@ -49,16 +58,16 @@ export function JobDetail() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: 'var(--text-secondary)' }}>Retries:</span>
-              <span>{job.retryCount} / {job.maxRetries}</span>
+              <span>{job.retry_count} / {job.max_retries}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: 'var(--text-secondary)' }}>Created:</span>
-              <span>{new Date(job.createdAt).toLocaleString()}</span>
+              <span>{new Date(job.created_at).toLocaleString()}</span>
             </div>
-            {job.scheduledAt && (
+            {job.scheduled_at && (
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Scheduled For:</span>
-                <span>{new Date(job.scheduledAt).toLocaleString()}</span>
+                <span>{new Date(job.scheduled_at).toLocaleString()}</span>
               </div>
             )}
           </div>
@@ -72,11 +81,11 @@ export function JobDetail() {
         </div>
       </div>
 
-      {job.errorMessage && (
+      {job.error_message && (
         <div className="glass-card fade-up" style={{ marginBottom: '32px', borderLeft: '4px solid var(--status-failed)' }}>
           <h3 style={{ marginBottom: '16px', color: 'var(--status-failed)' }}>Error</h3>
           <p style={{ color: 'var(--status-failed)', fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
-            {job.errorMessage}
+            {job.error_message}
           </p>
         </div>
       )}
@@ -102,7 +111,7 @@ export function JobDetail() {
             <tbody>
               {job.logs.map(log => (
                 <tr key={log.id} style={{ borderBottom: '1px solid var(--bg-border)' }}>
-                  <td style={{ padding: '8px', color: 'var(--text-secondary)' }}>{new Date(log.createdAt).toLocaleTimeString()}</td>
+                  <td style={{ padding: '8px', color: 'var(--text-secondary)' }}>{new Date(log.created_at).toLocaleTimeString()}</td>
                   <td style={{ padding: '8px', fontFamily: 'var(--font-mono)' }}>{log.event}</td>
                   <td style={{ padding: '8px' }}>{log.message}</td>
                 </tr>

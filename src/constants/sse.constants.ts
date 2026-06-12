@@ -1,8 +1,6 @@
 export const SseEventNames = {
-  JOB_CREATED:        'job.created',
-  JOB_STATUS_CHANGED: 'job.status_changed',
-  DLQ_NEW_ENTRY:      'dlq.new_entry',
-  METRICS_UPDATED:    'metrics.updated',
+  JOB_UPDATE:        'job_update',
+  METRICS_UPDATE:    'metrics_update',
 } as const;
 
 export type SseEventName = typeof SseEventNames[keyof typeof SseEventNames];

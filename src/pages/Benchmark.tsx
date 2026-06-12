@@ -40,7 +40,7 @@ export function Benchmark() {
 
       {result && (
         <div className="fade-up">
-          <h3 style={{ marginBottom: '16px' }}>Results ({result.totalJobs.toLocaleString()} jobs)</h3>
+          <h3 style={{ marginBottom: '16px' }}>Results ({result.total_jobs.toLocaleString()} jobs)</h3>
           <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '24px' }}>
             Run at: {new Date(result.timestamp).toLocaleString()}
           </p>
@@ -50,15 +50,15 @@ export function Benchmark() {
               <h4 style={{ marginBottom: '16px', color: '#f59e0b' }}>Min-Heap</h4>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Insert Time:</span>
-                <span style={{ fontWeight: 600 }}>{result.heapInsertMs.toFixed(2)} ms</span>
+                <span style={{ fontWeight: 600 }}>{result.heap_insert_ms.toFixed(2)} ms</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Extract Time:</span>
-                <span style={{ fontWeight: 600 }}>{result.heapExtractMs.toFixed(2)} ms</span>
+                <span style={{ fontWeight: 600 }}>{result.heap_extract_ms.toFixed(2)} ms</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--bg-border)' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Memory:</span>
-                <span style={{ fontWeight: 600 }}>{result.heapMemoryMb.toFixed(2)} MB</span>
+                <span style={{ fontWeight: 600 }}>{result.heap_memory_mb.toFixed(2)} MB</span>
               </div>
             </div>
 
@@ -66,15 +66,15 @@ export function Benchmark() {
               <h4 style={{ marginBottom: '16px', color: '#10b981' }}>Timing-Wheel</h4>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Insert Time:</span>
-                <span style={{ fontWeight: 600 }}>{result.timingWheelInsertMs.toFixed(2)} ms</span>
+                <span style={{ fontWeight: 600 }}>{result.timing_wheel_insert_ms.toFixed(2)} ms</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Extract Time:</span>
-                <span style={{ fontWeight: 600 }}>{result.timingWheelExtractMs.toFixed(2)} ms</span>
+                <span style={{ fontWeight: 600 }}>{result.timing_wheel_extract_ms.toFixed(2)} ms</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--bg-border)' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Memory:</span>
-                <span style={{ fontWeight: 600 }}>{result.timingWheelMemoryMb.toFixed(2)} MB</span>
+                <span style={{ fontWeight: 600 }}>{result.timing_wheel_memory_mb.toFixed(2)} MB</span>
               </div>
             </div>
           </div>

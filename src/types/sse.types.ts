@@ -11,12 +11,10 @@ export interface SseEvent<T = unknown> {
 export interface JobStatusChangedPayload {
   id:         string;
   status:     JobStatus;
-  retryCount: number;
+  retry_count: number;
 }
 
 export type SsePayloadMap = {
-  'job.created':       Job;
-  'job.status_changed':JobStatusChangedPayload;
-  'dlq.new_entry':     DlqEntry;
-  'metrics.updated':   Metrics;
+  'job_update':      Job;
+  'metrics_update':  Metrics;
 };

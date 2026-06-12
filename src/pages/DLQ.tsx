@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { useDLQ } from '@/hooks/useDLQ';
+import { useSSE } from '@/hooks/useSSE';
 import { DLQTable } from '@/components/dlq/DLQTable';
 
 export function DLQ() {
   const [page, setPage] = useState(1);
   const { entries, total, loading, refetch, retryEntry, deleteEntry } = useDLQ(page, 20);
+
+  useSSE({
+    'job_update': (payload) => {
+      if (payload.status === 'failed') {
+        refetch();
+      }
+    }
+  });
 
   return (
     <div className="fade-up">

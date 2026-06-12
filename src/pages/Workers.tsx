@@ -61,11 +61,11 @@ export function Workers() {
                 </span>
               </div>
               <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-                Uptime: {w.uptimeSeconds}s
+                Uptime: {w.uptime_seconds}s
               </div>
-              {w.currentJobId && (
+              {w.current_job_id && (
                 <div style={{ marginTop: '8px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
-                  Job: {w.currentJobId.slice(0, 8)}...
+                  Job: {w.current_job_id.slice(0, 8)}...
                 </div>
               )}
             </div>

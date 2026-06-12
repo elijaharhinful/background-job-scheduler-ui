@@ -31,16 +31,16 @@ export function DLQTable({ entries, onRetry, onDelete }: DLQTableProps) {
           {entries.map((entry) => (
             <React.Fragment key={entry.id}>
               <tr style={{ borderTop: '1px solid var(--bg-border)' }}>
-                <td style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>{entry.jobId.slice(0, 8)}...</td>
-                <td style={{ fontWeight: 500 }}>{entry.jobType}</td>
+                <td style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>{entry.job_id.slice(0, 8)}...</td>
+                <td style={{ fontWeight: 500 }}>{entry.job_type}</td>
                 <td 
                   style={{ color: 'var(--status-failed)', cursor: 'pointer', maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                   onClick={() => setExpandedRow(expandedRow === entry.id ? null : entry.id)}
                 >
-                  {entry.finalError}
+                  {entry.final_error}
                 </td>
-                <td style={{ color: 'var(--text-secondary)' }}>{entry.retryCount}</td>
-                <td style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>{new Date(entry.createdAt).toLocaleString()}</td>
+                <td style={{ color: 'var(--text-secondary)' }}>{entry.retry_count}</td>
+                <td style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>{new Date(entry.created_at).toLocaleString()}</td>
                 <td>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button className="btn btn-secondary" style={{ padding: '4px 10px', fontSize: '12px' }} onClick={() => onRetry(entry.id)}>Retry</button>
@@ -54,12 +54,12 @@ export function DLQTable({ entries, onRetry, onDelete }: DLQTableProps) {
                     <div className="slide-in" style={{ padding: '16px 24px', backgroundColor: 'rgba(0,0,0,0.2)' }}>
                       <h4 style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>Payload Snapshot</h4>
                       <pre style={{ backgroundColor: 'var(--bg-base)', padding: '12px', borderRadius: '4px', fontSize: '12px', overflowX: 'auto', marginBottom: '16px' }}>
-                        {JSON.stringify(entry.payloadSnapshot, null, 2)}
+                        {JSON.stringify(entry.payload_snapshot, null, 2)}
                       </pre>
                       
                       <h4 style={{ marginBottom: '8px', color: 'var(--status-failed)' }}>Stack Trace</h4>
                       <pre style={{ backgroundColor: 'var(--bg-base)', padding: '12px', borderRadius: '4px', fontSize: '12px', overflowX: 'auto', color: 'var(--status-failed)' }}>
-                        {entry.errorStack || entry.finalError}
+                        {entry.error_stack || entry.final_error}
                       </pre>
                     </div>
                   </td>

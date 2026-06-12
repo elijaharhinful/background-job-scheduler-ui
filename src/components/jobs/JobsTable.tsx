@@ -16,12 +16,13 @@ export function JobsTable({ jobs }: { jobs: Job[] }) {
       <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
         <thead style={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
           <tr>
-            <th>ID</th>
+            <th>Short ID</th>
             <th>Type</th>
             <th>Priority</th>
             <th>Status</th>
             <th>Retry</th>
             <th>Recurrence</th>
+            <th>Scheduled Time</th>
             <th>Created At</th>
           </tr>
         </thead>
@@ -39,13 +40,16 @@ export function JobsTable({ jobs }: { jobs: Job[] }) {
               <td><PriorityBadge priority={job.priority} /></td>
               <td><StatusBadge status={job.status} /></td>
               <td style={{ color: 'var(--text-secondary)' }}>
-                {job.retryCount} / {job.maxRetries}
+                {job.retry_count} / {job.max_retries}
               </td>
               <td style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>
-                {job.recurrenceInterval ? RECURRENCE_LABELS[job.recurrenceInterval] : 'None'}
+                {job.recurrence_interval ? RECURRENCE_LABELS[job.recurrence_interval] : 'None'}
               </td>
               <td style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>
-                {new Date(job.createdAt).toLocaleString()}
+                {job.scheduled_at ? new Date(job.scheduled_at).toLocaleString() : 'Immediate'}
+              </td>
+              <td style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>
+                {new Date(job.created_at).toLocaleString()}
               </td>
             </tr>
           ))}

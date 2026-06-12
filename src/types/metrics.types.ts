@@ -1,11 +1,12 @@
 export interface WorkerState {
   id: number;
   status: 'idle' | 'processing';
-  currentJobId: string | null;
-  uptimeSeconds: number;
+  current_job_id: string | null;
+  uptime_seconds: number;
 }
 
-export interface QueueMetrics {
+export interface JobsMetrics {
+  total: number;
   pending: number;
   processing: number;
   completed: number;
@@ -14,9 +15,9 @@ export interface QueueMetrics {
 }
 
 export interface Metrics {
-  queue: QueueMetrics;
-  dlqCount: number;
-  workers: WorkerState[];
-  heapSize: number;
-  timestamp: string;
+  jobs: JobsMetrics;
+  dlq_count: number;
+  active_workers: number;
+  heap_size: number;
+  uptime_seconds: number;
 }

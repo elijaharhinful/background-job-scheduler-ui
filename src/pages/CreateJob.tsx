@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCreateJob } from '@/hooks/useCreateJob';
+import { useJobs } from '@/hooks/useJobs';
 import { JobPriority, RecurrenceInterval } from '@/types/job.types';
 
 export function CreateJob() {
@@ -12,7 +13,10 @@ export function CreateJob() {
   const [payloadText, setPayloadText] = useState('{\n  "to": "test@example.com",\n  "subject": "Hello",\n  "body": "World"\n}');
   const [scheduledAt, setScheduledAt] = useState('');
   const [recurrence, setRecurrence] = useState<RecurrenceInterval | ''>('');
+  const [dependsOn, setDependsOn] = useState<string[]>([]);
   
+  const { jobs: recentJobs } = useJobs({ limit: 50 });
+
   const [jsonError, setJsonError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,8 +36,9 @@ export function CreateJob() {
         type,
         priority,
         payload: parsedPayload,
-        ...(scheduledAt ? { scheduledAt: new Date(scheduledAt).toISOString() } : {}),
-        ...(recurrence ? { recurrenceInterval: recurrence } : {}),
+        ...(scheduledAt ? { scheduled_at: new Date(scheduledAt).toISOString() } : {}),
+        ...(recurrence ? { recurrence_interval: recurrence } : {}),
+        ...(dependsOn.length > 0 ? { depends_on: dependsOn } : {}),
       });
       navigate(`/jobs/${job.id}`);
     } catch {
@@ -62,13 +67,13 @@ export function CreateJob() {
           <label className="form-label">Priority</label>
           <div style={{ display: 'flex', gap: '16px' }}>
             <label style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <input type="radio" name="priority" checked={priority === JobPriority.HIGH} onChange={() => setPriority(JobPriority.HIGH)} /> High (1)
+              <input type="radio" name="priority" checked={priority === JobPriority.HIGH} onChange={() => setPriority(JobPriority.HIGH)} /> High
             </label>
             <label style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <input type="radio" name="priority" checked={priority === JobPriority.MEDIUM} onChange={() => setPriority(JobPriority.MEDIUM)} /> Medium (2)
+              <input type="radio" name="priority" checked={priority === JobPriority.MEDIUM} onChange={() => setPriority(JobPriority.MEDIUM)} /> Medium
             </label>
             <label style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <input type="radio" name="priority" checked={priority === JobPriority.LOW} onChange={() => setPriority(JobPriority.LOW)} /> Low (3)
+              <input type="radio" name="priority" checked={priority === JobPriority.LOW} onChange={() => setPriority(JobPriority.LOW)} /> Low
             </label>
           </div>
         </div>
@@ -103,6 +108,24 @@ export function CreateJob() {
               <option value={RecurrenceInterval.EVERY_1_HOUR}>Every 1 Hour</option>
             </select>
           </div>
+        </div>
+
+        <div className="form-group" style={{ marginTop: '24px' }}>
+          <label className="form-label">Depends On (Select multiple)</label>
+          <select 
+            className="select" 
+            multiple 
+            value={dependsOn}
+            onChange={(e) => setDependsOn(Array.from(e.target.selectedOptions, option => option.value))}
+            style={{ minHeight: '120px' }}
+          >
+            {recentJobs.map(j => (
+              <option key={j.id} value={j.id}>
+                [{j.id.slice(0, 8)}] - {j.type}
+              </option>
+            ))}
+          </select>
+          <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '8px' }}>Hold Ctrl/Cmd to select multiple jobs.</p>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '32px' }}>

@@ -19,38 +19,38 @@ export enum RecurrenceInterval {
 }
 
 export interface Job {
-  id:                 string;
-  type:               string;
-  payload:            Record<string, unknown>;
-  priority:           JobPriority;
-  status:             JobStatus;
-  retryCount:         number;
-  maxRetries:         number;
-  scheduledAt:        string | null;
-  startedAt:          string | null;
-  completedAt:        string | null;
-  recurrenceInterval: RecurrenceInterval | null;
-  errorMessage:       string | null;
-  effectivePriority:  number;
-  createdAt:          string;
-  updatedAt:          string;
-  logs?:              JobLog[];
+  id:                  string;
+  type:                string;
+  payload:             Record<string, unknown>;
+  priority:            JobPriority;
+  status:              JobStatus;
+  retry_count:         number;
+  max_retries:         number;
+  scheduled_at:        string | null;
+  started_at:          string | null;
+  completed_at:        string | null;
+  recurrence_interval: RecurrenceInterval | null;
+  error_message:       string | null;
+  effective_priority:  number;
+  created_at:          string;
+  updated_at:          string;
+  logs?:               JobLog[];
 }
 
 export interface JobLog {
-  id:        string;
-  jobId:     string;
-  event:     string;
-  message:   string;
-  metadata:  Record<string, unknown> | null;
-  createdAt: string;
+  id:         string;
+  job_id:     string;
+  event:      string;
+  message:    string;
+  metadata:   Record<string, unknown> | null;
+  created_at: string;
 }
 
 export interface CreateJobPayload {
-  type:               string;
-  priority?:          JobPriority;
-  payload:            Record<string, unknown>;
-  scheduledAt?:       string;
-  recurrenceInterval?:RecurrenceInterval;
-  dependsOn?:         string[];
+  type:                string;
+  priority?:           JobPriority;
+  payload:             Record<string, unknown>;
+  scheduled_at?:       string;
+  recurrence_interval?:RecurrenceInterval;
+  depends_on?:         string[];
 }

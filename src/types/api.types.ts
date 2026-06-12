@@ -2,7 +2,7 @@ export interface ApiResponse<T> {
   success:    boolean;
   message:    string;
   data:       T;
-  statusCode: number;
+  status_code: number;
   timestamp:  string;
 }
 
@@ -13,5 +13,5 @@ export interface PaginatedData<T> {
   total:      number;
   page:       number;
   limit:      number;
-  totalPages: number;
+  total_pages: number;
 }

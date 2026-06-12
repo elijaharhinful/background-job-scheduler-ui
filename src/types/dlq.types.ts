@@ -2,13 +2,13 @@ import type { Job } from './job.types';
 
 export interface DlqEntry {
   id: string;
-  jobId: string;
-  finalError: string;
-  errorStack: string | null;
-  payloadSnapshot: Record<string, unknown>;
-  retryCount: number;
-  jobType: string;
-  createdAt: string;
-  retriedAt: string | null;
+  job_id: string;
+  final_error: string;
+  error_stack: string | null;
+  payload_snapshot: Record<string, unknown>;
+  retry_count: number;
+  job_type: string;
+  created_at: string;
+  retried_at: string | null;
   job?: Job;
 }

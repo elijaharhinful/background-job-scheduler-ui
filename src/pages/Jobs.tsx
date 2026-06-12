@@ -10,16 +10,18 @@ export function Jobs() {
   const { jobs, setJobs, total, loading, refetch } = useJobs({ page, limit: 20, status: statusFilter });
 
   useSSE({
-    'job.status_changed': (payload) => {
-      setJobs((prev) => prev.map((j) => 
-        j.id === payload.id ? { ...j, status: payload.status, retryCount: payload.retryCount } : j
-      ));
-    },
-    'job.created': (newJob) => {
-      // In a robust app, we'd only add it if it matches the current filter
-      if (!statusFilter || newJob.status === statusFilter) {
-        setJobs((prev) => [newJob, ...prev].slice(0, 20)); // naive unshift
-      }
+    'job_update': (updatedJob) => {
+      setJobs((prev) => {
+        const exists = prev.find(j => j.id === updatedJob.id);
+        if (exists) {
+          return prev.map(j => j.id === updatedJob.id ? { ...j, ...updatedJob } : j);
+        } else {
+          if (!statusFilter || updatedJob.status === statusFilter) {
+            return [updatedJob, ...prev].slice(0, 20);
+          }
+          return prev;
+        }
+      });
     }
   });
 
