@@ -1,5 +1,4 @@
 import type { Job, JobStatus } from './job.types';
-import type { DlqEntry } from './dlq.types';
 import type { Metrics } from './metrics.types';
 
 export interface SseEvent<T = unknown> {
