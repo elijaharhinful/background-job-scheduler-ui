@@ -12,8 +12,8 @@ export function JobsTable({ jobs }: { jobs: Job[] }) {
   }
 
   return (
-    <div className="glass-card" style={{ padding: 0, overflow: 'hidden' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+    <div className="glass-card" style={{ padding: 0, overflowX: 'auto' }}>
+      <table style={{ minWidth: '800px', width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
         <thead style={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
           <tr>
             <th>Short ID</th>

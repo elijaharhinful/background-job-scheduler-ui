@@ -100,8 +100,9 @@ export function JobDetail() {
       <div className="glass-card fade-up">
         <h3 style={{ marginBottom: '16px', color: 'var(--text-secondary)' }}>Execution Logs</h3>
         {job.logs && job.logs.length > 0 ? (
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
-            <thead style={{ color: 'var(--text-secondary)', borderBottom: '1px solid var(--bg-border)' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ minWidth: '600px', width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+              <thead style={{ color: 'var(--text-secondary)', borderBottom: '1px solid var(--bg-border)' }}>
               <tr>
                 <th style={{ padding: '8px' }}>Time</th>
                 <th style={{ padding: '8px' }}>Event</th>
@@ -117,7 +118,8 @@ export function JobDetail() {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </div>
         ) : (
           <p style={{ color: 'var(--text-secondary)' }}>No logs available</p>
         )}
