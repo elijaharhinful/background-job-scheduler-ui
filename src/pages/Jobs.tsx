@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { Job } from '@/types/job.types';
 import { useJobs } from '@/hooks/useJobs';
 import { useSSE } from '@/hooks/useSSE';
 import { JobsTable } from '@/components/jobs/JobsTable';
@@ -14,13 +15,14 @@ export function Jobs() {
       setJobs((prev) => {
         const exists = prev.find(j => j.id === updatedJob.id);
         if (exists) {
-          return prev.map(j => j.id === updatedJob.id ? { ...j, ...updatedJob } : j);
-        } else {
-          if (!statusFilter || updatedJob.status === statusFilter) {
-            return [updatedJob, ...prev].slice(0, 20);
-          }
-          return prev;
+          // We have the full job in state, so we can merge the partial update
+          return prev.map(j => 
+            j.id === updatedJob.id ? ({ ...j, ...updatedJob } as unknown as Job) : j
+          );
         }
+        // If the job is not in the current view, we ignore the partial update 
+        // because we lack the full data (e.g. payload, created_at) to render it.
+        return prev;
       });
     }
   });
