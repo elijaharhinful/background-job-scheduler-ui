@@ -32,5 +32,5 @@ export function useWorkers() {
 
   useEffect(() => { void fetchWorkers(); }, [fetchWorkers]);
 
-  return { workers, loading, error, refetch: fetchWorkers, updateWorkerCount };
+  return { workers, setWorkers, loading, error, refetch: fetchWorkers, updateWorkerCount };
 }

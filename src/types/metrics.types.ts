@@ -1,8 +1,8 @@
+// Matches getStatus() in worker.ts: id is a string, status is idle|processing|stopped
 export interface WorkerState {
-  id: number;
-  status: 'idle' | 'processing';
+  id:             string;
+  status:         'idle' | 'processing' | 'stopped';
   current_job_id: string | null;
-  uptime_seconds: number;
 }
 
 export interface JobsMetrics {

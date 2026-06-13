@@ -1,10 +1,17 @@
 import { useWorkers } from '@/hooks/useWorkers';
 import { useState } from 'react';
+import { useSSE } from '@/hooks/useSSE';
 
 export function Workers() {
-  const { workers, loading, updateWorkerCount } = useWorkers();
+  const { workers, setWorkers, loading, updateWorkerCount } = useWorkers();
   const [count, setCount] = useState('3');
   const [updating, setUpdating] = useState(false);
+
+  useSSE({
+    'worker_pool_update': (payload) => {
+      setWorkers(payload.workers);
+    }
+  });
 
   const handleUpdate = async () => {
     const num = parseInt(count, 10);
@@ -47,25 +54,31 @@ export function Workers() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
           {workers.map(w => (
-            <div key={w.id} className="glass-card" style={{ padding: '16px' }}>
+              <div key={w.id} className="glass-card" style={{ padding: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <span style={{ fontWeight: 600 }}>Worker #{w.id}</span>
-                <span style={{ 
-                  fontSize: '12px', 
-                  padding: '2px 8px', 
+                <span style={{ fontWeight: 600}}
+                  title={w.id}>
+                  {w.id.slice(0, 20)}…
+                </span>
+                <span style={{
+                  fontSize: '12px',
+                  padding: '2px 8px',
                   borderRadius: '12px',
-                  backgroundColor: w.status === 'processing' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                  color: w.status === 'processing' ? 'var(--status-processing)' : 'var(--status-completed)'
+                  backgroundColor:
+                    w.status === 'processing' ? 'rgba(59, 130, 246, 0.1)' :
+                    w.status === 'stopped'    ? 'rgba(107, 114, 128, 0.1)' :
+                                               'rgba(16, 185, 129, 0.1)',
+                  color:
+                    w.status === 'processing' ? 'var(--status-processing)' :
+                    w.status === 'stopped'    ? 'var(--status-cancelled)' :
+                                               'var(--status-completed)',
                 }}>
                   {w.status}
                 </span>
               </div>
-              <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-                Uptime: {w.uptime_seconds}s
-              </div>
               {w.current_job_id && (
-                <div style={{ marginTop: '8px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
-                  Job: {w.current_job_id.slice(0, 8)}...
+                <div style={{ marginTop: '8px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                  Job: {w.current_job_id.slice(0, 8)}…
                 </div>
               )}
             </div>

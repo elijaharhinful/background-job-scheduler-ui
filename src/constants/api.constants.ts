@@ -1,5 +1,7 @@
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
-export const SSE_URL      = import.meta.env.VITE_SSE_URL as string;
+export const API_BASE_URL    = import.meta.env.VITE_API_BASE_URL as string;
+export const SSE_JOBS_URL    = import.meta.env.VITE_SSE_JOBS_URL as string;
+export const SSE_METRICS_URL = import.meta.env.VITE_SSE_METRICS_URL as string;
+export const SSE_WORKERS_URL = import.meta.env.VITE_SSE_WORKERS_URL as string;
 
 export const Endpoints = {
   JOBS:             '/api/jobs',
